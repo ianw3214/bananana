@@ -44,32 +44,7 @@ let game = {
         {
             game.mouse_session = false;
         }
-        // Update player positions
-        for (var player in players.players)
-        {
-            player = players.players[player];
-            if (player["x"] !== player["target_x"])
-            {
-                if (player["x"] < player["target_x"])
-                {
-                    player["x"] += 1;
-                }
-                else
-                {
-                    player["x"] -= 1;
-                }
-            }
-            if (player["y"] !== player["target_y"]) 
-            {
-                if (player["y"] < player["target_y"]) 
-                {
-                    player["y"] += 1;
-                }
-                else {
-                    player["y"] -= 1;
-                }
-            }
-        }
+        players.update();
         socket.update();
     },
     draw: function () {
@@ -77,6 +52,8 @@ let game = {
         graphics.drawImage(game.background, 0, 0, 640, 480);
 
         players.draw();
+
+        graphics.text.drawText("VERSION 0-0-1");
     }
 }
 

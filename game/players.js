@@ -21,14 +21,60 @@ let players = {
     },
     update: function()
     {
+        // Update player positions
+        for (var player in players.players) {
+            player = players.players[player];
 
+            var x_offset = player["target_x"] - player["x"];
+            var y_offset = player["target_y"] - player["y"];
+            var angle = Math.atan2(y_offset, x_offset);
+            
+            if (x_offset != 0 || y_offset != 0)
+            {
+                if (x_offset > 5 || x_offset < -5)
+                {
+                    player["x"] += Math.ceil(Math.cos(angle) * 5.0);
+                }
+                else
+                {
+                    player["x"] = player["target_x"];
+                }
+                if (y_offset > 5 || y_offset < -5)
+                {
+                    player["y"] += Math.ceil(Math.sin(angle) * 5.0);
+                }
+                else
+                {
+                    player["y"] = player["target_y"];
+                }
+            }
+
+            /*
+            if (player["x"] !== player["target_x"]) {
+                if (player["x"] < player["target_x"]) {
+                    player["x"] += 1;
+                }
+                else {
+                    player["x"] -= 1;
+                }
+            }
+            if (player["y"] !== player["target_y"]) {
+                if (player["y"] < player["target_y"]) {
+                    player["y"] += 1;
+                }
+                else {
+                    player["y"] -= 1;
+                }
+            }
+            */  
+        }
     },
     draw: function()
     {
         for (var player in players.players) 
         {
             player = players.players[player];
-            graphics.drawImage(players.player_texture, player["x"], player["y"], 100, 150);
+            graphics.drawImage(players.player_texture, player["x"] - 50, player["y"] - 150, 100, 150);
         }
     },
     createPlayer: function(data)
