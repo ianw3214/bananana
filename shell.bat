@@ -1,0 +1,5 @@
+@ECHO OFF
+PUSHD server
+START CMD
+POPD
+@ECHO ON
