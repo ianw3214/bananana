@@ -58,5 +58,9 @@ let socket = {
         {
             players.movePlayer(message);
         }
+        if (message["command"] == "remove")
+        {
+            players.removePlayer(message);
+        }
     }
 }

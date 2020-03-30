@@ -44,11 +44,25 @@ let players = {
     movePlayer: function(data)
     {
         // Find the player and move it
-        for (var player in players.players) {
+        for (var player in players.players) 
+        {
             player = players.players[player];
-            if (player["id"] == data["id"]) {
+            if (player["id"] == data["id"]) 
+            {
                 player["target_x"] = data["x"];
                 player["target_y"] = data["y"];
+            }
+        }
+    },
+    removePlayer: function(data)
+    {
+        // Find the player and remove it
+        for (var player in players.players)
+        {
+            if (players.players[player]["id"] == data["id"])
+            {
+                players.players.splice(player, 1);
+                break;
             }
         }
     }
