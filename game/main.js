@@ -53,7 +53,7 @@ let game = {
 
         players.draw();
 
-        graphics.text.drawText("VERSION 0-0-1");
+        graphics.text.drawText("VERSION 0-0-2");
     }
 }
 

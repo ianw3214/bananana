@@ -10,7 +10,18 @@ let socket = {
         {
             // Assume incoming data is always JSON data
             var data = JSON.parse(event.data);
-            socket.handleMessage(data);
+            if (data["messages"])
+            {
+                for (var message in data["messages"])
+                {
+                    message = data["messages"][message];
+                    socket.handleMessage(message);
+                }
+            }
+            else
+            {
+                socket.handleMessage(data);
+            }
         }
         socket.socket.onclose = function(event)
         {

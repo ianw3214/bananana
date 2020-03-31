@@ -48,25 +48,6 @@ let players = {
                     player["y"] = player["target_y"];
                 }
             }
-
-            /*
-            if (player["x"] !== player["target_x"]) {
-                if (player["x"] < player["target_x"]) {
-                    player["x"] += 1;
-                }
-                else {
-                    player["x"] -= 1;
-                }
-            }
-            if (player["y"] !== player["target_y"]) {
-                if (player["y"] < player["target_y"]) {
-                    player["y"] += 1;
-                }
-                else {
-                    player["y"] -= 1;
-                }
-            }
-            */  
         }
     },
     draw: function()
