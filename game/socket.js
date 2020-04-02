@@ -5,7 +5,8 @@ let socket = {
     socket: null,
     messages: [],
     init: function() {
-        socket.socket = new WebSocket("wss://banabanana.herokuapp.com/0.0.0.0");
+        // socket.socket = new WebSocket("wss://banabanana.herokuapp.com/0.0.0.0");
+        socket.socket = new WebSocket("ws://127.0.0.1:5678");
         socket.socket.onmessage = function(event)
         {
             // Assume incoming data is always JSON data

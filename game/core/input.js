@@ -9,7 +9,9 @@ let input = {
     mouse: {
         x: 0,
         y: 0,
-        clicked: false
+        clicked: false,
+        held: false,
+        session: false
     }
 };
 
@@ -19,6 +21,24 @@ input.init = function () {
     document.addEventListener("mousemove", input.updateMousePos, false);
     document.addEventListener("mousedown", input.mouseDown, false);
     document.addEventListener("mouseup", input.mouseUp, false);
+}
+
+input.update = function(delta) {
+    // Reset mouse state
+    input.mouse.clicked = false;
+
+    if (input.mouse.held)
+    {
+        if (!input.mouse.session)
+        {
+            input.mouse.session = true;
+            input.mouse.clicked = true;
+        }
+    }
+    else
+    {
+        input.mouse.session = false;
+    }
 }
 
 input.keyDownHandler = function (event) {
@@ -44,9 +64,9 @@ input.updateMousePos = function (evt) {
 }
 
 input.mouseDown = function (event) {
-    input.mouse.clicked = true;
+    input.mouse.held = true;
 }
 
 input.mouseUp = function (event) {
-    input.mouse.clicked = false;
+    input.mouse.held = false;
 }

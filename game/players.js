@@ -21,6 +21,7 @@ let players = {
     },
     update: function()
     {
+        players.handleInput();
         // Update player positions
         for (var player in players.players) {
             player = players.players[player];
@@ -91,6 +92,20 @@ let players = {
                 players.players.splice(player, 1);
                 break;
             }
+        }
+    },
+    handleInput: function()
+    {
+        if (input.mouse.clicked) 
+        {
+            // Move here
+            var command = {
+                "command": "move",
+                "id": players.id,
+                "x": input.mouse.x,
+                "y": input.mouse.y
+            };
+            socket.send(JSON.stringify(command));
         }
     }
 };

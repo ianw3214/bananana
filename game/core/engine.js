@@ -31,6 +31,7 @@ engine.setState = function (state) {
 }
 
 engine.update = function (delta) {
+    input.update(delta);
     // Update the state of the world for the elapsed time since last render
     if (engine.state.hasOwnProperty("update")) {
         if (typeof engine.state.update === "function") {
