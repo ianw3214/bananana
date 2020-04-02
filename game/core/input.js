@@ -60,6 +60,7 @@ input.keyPressed = function (key) {
 input.updateMousePos = function (evt) {
     let rect = canvas.getBoundingClientRect();
     input.mouse.x = (evt.clientX - rect.left) / (rect.right - rect.left) * canvas.width;
+    // Invert mouse y
     input.mouse.y = (evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
 }
 

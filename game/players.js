@@ -3,6 +3,7 @@
 let players = {
     // Textures
     player_texture: null,
+    player_fishing_texture: null,
     //////////////////////////////////////////////////
     players: [],
     id: null,
@@ -10,18 +11,20 @@ let players = {
     init: function() 
     {
         players.player_texture = graphics.loadImage("res/player.png");
+        players.player_fishing_texture = graphics.loadImage("res/player_fish.png");
 
         // Create our player ID
         players.id = Math.floor(Math.random() * 100000);
 
+        // Notify the server that the client has joined the game
         socket.send({
             "command": "create",
             "id": players.id
         });
     },
-    update: function()
+    update: function(map_click_handled)
     {
-        players.handleInput();
+        players.handleInput(map_click_handled);
         // Update player positions
         for (var player in players.players) {
             player = players.players[player];
@@ -56,7 +59,14 @@ let players = {
         for (var player in players.players) 
         {
             player = players.players[player];
-            graphics.drawImage(players.player_texture, player["x"] - 50, player["y"] - 150, 100, 150);
+            if (player["state"] == "fishing")
+            {
+                graphics.drawImage(players.player_fishing_texture, player["x"] - 50, player["y"] - 150, 100, 150);
+            }
+            else
+            {
+                graphics.drawImage(players.player_texture, player["x"] - 50, player["y"] - 150, 100, 150);
+            }
         }
     },
     createPlayer: function(data)
@@ -66,7 +76,8 @@ let players = {
             "x": data["x"],
             "y": data["y"],
             "target_x": data["x"],
-            "target_y": data["y"]
+            "target_y": data["y"],
+            "state": data["state"]
         });
     },
     movePlayer: function(data)
@@ -94,9 +105,9 @@ let players = {
             }
         }
     },
-    handleInput: function()
+    handleInput: function (map_click_handled)
     {
-        if (input.mouse.clicked) 
+        if (input.mouse.clicked && !map_click_handled) 
         {
             // Move here
             var command = {
@@ -107,5 +118,16 @@ let players = {
             };
             socket.send(JSON.stringify(command));
         }
+    },
+    getPlayer: function(id)
+    {
+        for (var player in players.players)
+        {
+            if (players.players[player]["id"] == id)
+            {
+                return players.players[player];
+            }
+        }
+        return null;
     }
 };

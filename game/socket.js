@@ -74,5 +74,33 @@ let socket = {
         {
             players.removePlayer(message);
         }
+        if (message["command"] == "interact")
+        {
+            if (message["action"] == "fishing")
+            {
+                var player = players.getPlayer(message["id"]);
+                if (player !== null)
+                {
+                    player["state"] = "fishing";
+                }
+            }
+        }
+        if (message["command"] == "fish")
+        {
+            var player = players.getPlayer(message["id"])
+            if (player !== null)
+            {
+                player["state"] = "default";
+            }
+            // If this is us, show the fish
+            if (message["id"] == players.id)
+            {
+                ui.setFish(message["fish"]);
+            }
+        }
+        if (message["debug"])
+        {
+            logger.info(message["debug"]);
+        }
     }
 }

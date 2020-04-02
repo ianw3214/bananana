@@ -7,6 +7,7 @@ let game = {
         map.init();
         socket.init();
         players.init();
+        ui.init();
     },
     close: function () {
         // Clean up any resources here...
@@ -22,13 +23,16 @@ let game = {
         if (input.keyPressed(83) || input.keyPressed(40)) {
             // DOWN
         }
-        players.update();
+        ui.update();
+        var map_click_handled = map.update();
+        players.update(map_click_handled);
         socket.update();
     },
     draw: function () {
         map.draw();
         players.draw();
 
+        ui.draw();
         graphics.text.drawText("VERSION 0-0-2");
     }
 }
