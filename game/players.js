@@ -6,21 +6,11 @@ let players = {
     player_fishing_texture: null,
     //////////////////////////////////////////////////
     players: [],
-    id: null,
     //////////////////////////////////////////////////
     init: function() 
     {
         players.player_texture = graphics.loadImage("res/player.png");
         players.player_fishing_texture = graphics.loadImage("res/player_fish.png");
-
-        // Create our player ID
-        players.id = Math.floor(Math.random() * 100000);
-
-        // Notify the server that the client has joined the game
-        socket.send({
-            "command": "create",
-            "id": players.id
-        });
     },
     update: function(map_click_handled)
     {
@@ -67,12 +57,15 @@ let players = {
             {
                 graphics.drawImage(players.player_texture, player["x"] - 50, player["y"] - 150, 100, 150);
             }
+            // Draw the player name
+            graphics.text.drawText(player["name"], defaultFont , player["x"] - 50, player["y"] - 150 - 16, 16);
         }
     },
     createPlayer: function(data)
     {
         players.players.push({
             "id": data["id"],
+            "name": data["name"],
             "x": data["x"],
             "y": data["y"],
             "target_x": data["x"],
@@ -112,7 +105,7 @@ let players = {
             // Move here
             var command = {
                 "command": "move",
-                "id": players.id,
+                "id": session.id,
                 "x": input.mouse.x,
                 "y": input.mouse.y
             };

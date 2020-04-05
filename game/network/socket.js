@@ -93,7 +93,7 @@ let socket = {
                 player["state"] = "default";
             }
             // If this is us, show the fish
-            if (message["id"] == players.id)
+            if (message["id"] == session.id)
             {
                 ui.setFish(message["fish"]);
             }

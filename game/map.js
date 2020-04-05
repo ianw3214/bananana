@@ -30,7 +30,7 @@ let map = {
             {
                 socket.send({
                     "command": "interact",
-                    "id": players.id,
+                    "id": session.id,
                     "action": "fishing"
                 });
                 return true;

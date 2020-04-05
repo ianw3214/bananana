@@ -12,7 +12,6 @@ let ui = {
         {
             if (input.mouse.clicked)
             {
-                logger.warning(ui.fish);
                 ui.fish = "";
             }
         }

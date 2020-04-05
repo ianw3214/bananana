@@ -10,9 +10,11 @@ let input = {
         x: 0,
         y: 0,
         clicked: false,
-        held: false,
+        held: true,
         session: false
-    }
+    },
+    record_text: false,
+    recorded_text: ""
 };
 
 input.init = function () {
@@ -46,7 +48,27 @@ input.keyDownHandler = function (event) {
     if (input.keyPressed(16)) {
         console.log("KEY PRESSED: " + event.keyCode);
     }
-    if (!input.keyPressed(event.keyCode)) input.keys.push(event.keyCode);
+    if (!input.keyPressed(event.keyCode)) 
+    {
+        input.keys.push(event.keyCode);
+        if (input.record_text) 
+        {
+            // Backspace
+            if (event.keyCode === 8)
+            {
+                input.recorded_text = input.recorded_text.substring(0, input.recorded_text.length - 1);
+            }
+            // Handle any remaining character that is supported
+            else
+            {
+                var char = String.fromCharCode(event.keyCode);
+                if (graphics.text.characterSupported(char));
+                {
+                    input.recorded_text = input.recorded_text.concat(char);
+                }
+            }
+        }
+    }
 }
 
 input.keyUpHandler = function (event) {
@@ -70,4 +92,19 @@ input.mouseDown = function (event) {
 
 input.mouseUp = function (event) {
     input.mouse.held = false;
+}
+
+input.startRecordText = function()
+{
+    input.record_text = true;
+}
+
+input.stopRecordText = function()
+{
+    input.record_text = false;
+}
+
+input.resetRecordText = function()
+{
+    input.recorded_text = "";
 }

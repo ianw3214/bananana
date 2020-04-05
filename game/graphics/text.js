@@ -39,7 +39,7 @@ let defaultFont = {
     spaceWidth: 8,
     spacing: -1,
     textureWidth: 64,
-    textureHeight: 40,
+    textureHeight: 48,
     glyphInfos: {
         'a': { x: 0, y: 0, width: 8, },
         'b': { x: 8, y: 0, width: 8, },
@@ -81,6 +81,7 @@ let defaultFont = {
         '*': { x: 40, y: 32, width: 8, },
         '!': { x: 48, y: 32, width: 8, },
         '?': { x: 56, y: 32, width: 8, },
+        '.': { x: 0, y: 40, width: 8, },
     },
 };
 
@@ -214,7 +215,8 @@ function makeVerticesForString(font, str, x, y, size) {
     };
 }
 
-graphics.text.drawText = function (text, font = defaultFont, x = 0, y = 0, size = 16, colour = [1.0, 1.0, 1.0, 1.0]) {
+graphics.text.drawText = function (text, font = defaultFont, x = 0, y = 0, size = 16, colour = [1.0, 1.0, 1.0, 1.0]) 
+{
 
     if (typeof text !== "string") {
         logger.error("Unable to draw text: " + text);
@@ -248,4 +250,16 @@ graphics.text.drawText = function (text, font = defaultFont, x = 0, y = 0, size 
     gl.uniform4fv(colourLocation, colour);
 
     gl.drawArrays(gl.TRIANGLES, 0, vertices.numVertices);
+}
+
+graphics.text.characterSupported = function(character)
+{
+    for (var glyph in defaultFont.glyphInfos)
+    {
+        if (glyph == character)
+        {
+            return true;
+        }
+    }
+    return false;
 }

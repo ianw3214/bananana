@@ -24,8 +24,11 @@ logger.warning = function (message) {
 };
 
 logger.error = function (message) {
-    message = "[ERROR] " + message;
-    console.log("%c" + message, "color:red;");
-    alert(message);
-    logger.logs.push(message);
+    if (message)
+    {
+        message = "[ERROR] " + message;
+        console.log("%c" + message, "color:red;");
+        alert(message);
+        logger.logs.push(message);    
+    }
 }

@@ -33,14 +33,15 @@ let game = {
         players.draw();
 
         ui.draw();
-        graphics.text.drawText("VERSION 0-0-2");
+        graphics.text.drawText("VERSION 0.0.3");
     }
 }
 
 // Function to represent entry point
 function main() {
     engine.init();
-    engine.start(game);
+    // engine.start(game);
+    engine.start(login);
 }
 
 main();
