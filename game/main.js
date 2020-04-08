@@ -12,7 +12,7 @@ let game = {
     close: function () {
         // Clean up any resources here...
     },
-    update: function () {
+    update: function (delta) {
         if (input.keyPressed(13) || input.keyPressed(32)) {
             // DO THINGS DEPENDING ON THE MENU STATE
             // SPACE BAR
@@ -23,8 +23,9 @@ let game = {
         if (input.keyPressed(83) || input.keyPressed(40)) {
             // DOWN
         }
-        ui.update();
-        var map_click_handled = map.update();
+        var map_click_handled = false;
+        map_click_handled = ui.update(delta);
+        map_click_handled = map.update(map_click_handled);
         players.update(map_click_handled);
         socket.update();
     },
@@ -33,7 +34,7 @@ let game = {
         players.draw();
 
         ui.draw();
-        graphics.text.drawText("VERSION 0.0.3");
+        graphics.text.drawText("VERSION 0.0.5");
     }
 }
 

@@ -9,3 +9,5 @@ Each subsystem will directly handle sending to the websocket, however the socket
 On the server, commands should be batched so they can be sent in a single go. Commands on the client can be batched per frame as well, perhaps even longer time intervals depending on the action being used - can investigate in the future.
 
 On the server side, gameplay systems can use a 'key' system where they register their services into a dictionary. Then, interactables can use that key as a quick way to reference the systems.
+
+The server usually broadcasts the commands to each client, since none of the game state is handled on the client side. However, there are cases where we want to send messages to just a client, for things like requesting inventory data or other client specific data.

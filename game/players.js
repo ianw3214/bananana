@@ -100,7 +100,7 @@ let players = {
     },
     handleInput: function (map_click_handled)
     {
-        if (input.mouse.clicked && !map_click_handled) 
+        if (input.mouse.clicked && map_click_handled !== true) 
         {
             // Move here
             var command = {

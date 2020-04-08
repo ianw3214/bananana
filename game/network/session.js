@@ -6,6 +6,7 @@ let session = {
     new: function(name)
     {
         session.id = Math.floor(Math.random() * 100000);
+        session.name = name;
 
         socket.send({
             "command": "create",

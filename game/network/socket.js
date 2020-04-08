@@ -98,9 +98,20 @@ let socket = {
                 ui.setFish(message["fish"]);
             }
         }
+        if (message["command"] == "inventory")
+        {
+            ui.setInventory(message["inventory"]);
+        }
         if (message["debug"])
         {
-            logger.info(message["debug"]);
+            if (typeof(message["debug"]) === "object")
+            {
+                logger.info(JSON.stringify(message["debug"]));
+            }
+            else
+            {
+                logger.info(message["debug"]);
+            }
         }
     }
 }

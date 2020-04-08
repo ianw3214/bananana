@@ -14,7 +14,7 @@ let map = {
         map.pond_texture = graphics.loadImage("res/pond.png");
         map.pond_highlight_texture = graphics.loadImage("res/pond_highlight.png")
     },
-    update: function ()
+    update: function (map_click_handled)
     {
         // Reset state
         map.pond_hover = false;
@@ -26,7 +26,7 @@ let map = {
         {
             map.pond_hover = true;
             // Mouse click on the interactable
-            if (input.mouse.clicked === true)
+            if (input.mouse.clicked === true && !map_click_handled)
             {
                 socket.send({
                     "command": "interact",
@@ -36,7 +36,7 @@ let map = {
                 return true;
             }
         }
-        return false;
+        return map_click_handled;
     },
     draw: function()
     {
