@@ -22,7 +22,7 @@ let map = {
         // Check if mouse hovers over interactable
         var x = input.mouse.x;
         var y = input.mouse.y;
-        if (x > 100 && x < 400 && y > 100 && y < 300)
+        if (x > 960 - 400 && x < 960 && y > 720-120 && y < 720)
         {
             map.pond_hover = true;
             // Mouse click on the interactable
@@ -40,14 +40,14 @@ let map = {
     },
     draw: function()
     {
-        graphics.drawImage(map.background_texture, 0, 0, 640, 480);
+        graphics.drawImage(map.background_texture, 0, 0, 960, 720);
         if (map.pond_hover)
         {
-            graphics.drawImage(map.pond_highlight_texture, 100, 100, 300, 200);
+            graphics.drawImage(map.pond_highlight_texture, 960 - 400, 720 - 120, 400, 120);
         }
         else
         {
-            graphics.drawImage(map.pond_texture, 100, 100, 300, 200);
+            graphics.drawImage(map.pond_texture, 960 - 400, 720 - 120, 400, 120);
         }
     }
 };

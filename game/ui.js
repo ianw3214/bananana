@@ -36,7 +36,7 @@ let ui = {
         // Hotbar buttons
         if (input.mouse.clicked)
         {
-            if (input.mouse.x > 50 && input.mouse.x < 50 + 32 && input.mouse.y > 480 - 32 && input.mouse.y < 480)
+            if (input.mouse.x > 50 && input.mouse.x < 50 + 32 && input.mouse.y > 720 - 32 && input.mouse.y < 720)
             {
                 var command = {
                     "command": "inventory",
@@ -69,7 +69,7 @@ let ui = {
     draw: function()
     {
         // Draw hotbar
-        graphics.drawImage(ui.inventory_icon_texture, 50, 480 - 32, 32, 32);
+        graphics.drawImage(ui.inventory_icon_texture, 50, 720 - 32, 32, 32);
         // draw fish if fishing
         if (ui.fish.length > 0)
         {

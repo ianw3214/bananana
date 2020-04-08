@@ -22,7 +22,7 @@ let login = {
     },
     draw: function()
     {
-        graphics.drawRect(0, 0, 640, 480, [1.0, 1.0, 1.0, 1.0]);
+        graphics.drawRect(0, 0, 960, 720, [1.0, 1.0, 1.0, 1.0]);
         graphics.text.drawText("Login", defaultFont, 100, 20, 32, [0.0, 0.0, 0.0, 1.0]);
         graphics.text.drawText("type your username and press \nenter to start", defaultFont, 100, 60, 16, [0.0, 0.0, 0.0, 1.0]);
 
