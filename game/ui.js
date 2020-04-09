@@ -4,6 +4,7 @@
 let ui = {
     // Textures
     inventory_icon_texture: null,
+    inventory_hover_texture: null,
     inventory_background: null,
     goldfish_texture: "res/ui/goldfish.png",
     carp_texture: "res/ui/common_carp.png",
@@ -13,13 +14,17 @@ let ui = {
     salmon_texture: "res/ui/salmong.png",
     cod_texture: "res/ui/large_cod.png",
     sergio_texture: "res/ui/sergio.png",
+    cursor_texture: null,
     // UI State
     fish: "",
     show_inventory: false,
     inventory_cache: null,
+    inventory_hover: false,
+    cursor_can_select: false,
     // Actual UI functions
     init: function() {
         ui.inventory_icon_texture = graphics.loadImage("res/icons/inventory.png");
+        ui.inventory_hover_texture = graphics.loadImage("res/icons/inventory_select.png");
         ui.inventory_background = graphics.loadImage("res/ui/inventory.png");
         // Load fish textures
         ui.goldfish_texture = graphics.loadImage("res/ui/goldfish.png");
@@ -30,13 +35,20 @@ let ui = {
         ui.salmon_texture = graphics.loadImage("res/ui/salmong.png");
         ui.cod_texture = graphics.loadImage("res/ui/large_cod.png");
         ui.sergio_texture = graphics.loadImage("res/ui/sergio.png");
+
+        // Hide the cursor
+        document.getElementById('glCanvas').style.cursor = 'none';
+        ui.cursor_texture = graphics.loadImage("res/ui/cursor.png");
+        ui.cursor_select = graphics.loadImage("res/ui/cursor_select.png");
     },
     update: function(delta)
     {
+        // Reset state
+        ui.inventory_hover = false;
         // Hotbar buttons
-        if (input.mouse.clicked)
+        if (input.mouse.x > 50 && input.mouse.x < 50 + 100 && input.mouse.y > 720 - 100 && input.mouse.y < 720)
         {
-            if (input.mouse.x > 50 && input.mouse.x < 50 + 32 && input.mouse.y > 720 - 32 && input.mouse.y < 720)
+            if (input.mouse.clicked) 
             {
                 var command = {
                     "command": "inventory",
@@ -46,6 +58,8 @@ let ui = {
                 socket.send(command);
                 return true;
             }
+            ui.inventory_hover = true;
+            ui.setCanSelect();
         }
         if (ui.fish.length > 0)
         {
@@ -69,7 +83,14 @@ let ui = {
     draw: function()
     {
         // Draw hotbar
-        graphics.drawImage(ui.inventory_icon_texture, 50, 720 - 32, 32, 32);
+        if (ui.inventory_hover)
+        {
+            graphics.drawImage(ui.inventory_hover_texture, 50, 720 - 100, 100, 100);
+        }
+        else
+        {
+            graphics.drawImage(ui.inventory_icon_texture, 50, 720 - 100, 100, 100);
+        }
         // draw fish if fishing
         if (ui.fish.length > 0)
         {
@@ -78,7 +99,7 @@ let ui = {
         // Draw inventory if showing
         if (ui.show_inventory)
         {
-            graphics.drawImage(ui.inventory_background, 130, 70, 322, 322);
+            graphics.drawImage(ui.inventory_background, 130, 70, 522, 522);
             var counter = 0;
             for (var item in ui.inventory_cache)
             {
@@ -96,13 +117,24 @@ let ui = {
                     if (item == "SERGIO") texture = this.sergio_texture;
                     if (texture !== null)
                     {
-                        var x = 130 + (counter % 10) * 32 + 2;
-                        var y = 70 + (Math.floor(counter / 10)) * 32 + 2;
-                        graphics.drawImage(texture, x, y, 30, 30);
+                        var x = 130 + (counter % 10) * 52 + 2;
+                        var y = 70 + (Math.floor(counter / 10)) * 52 + 2;
+                        graphics.drawImage(texture, x, y, 50, 50);
                         counter = counter + 1;
                     }
                 }
             }
+        }
+        // Draw the cursor
+        if (ui.cursor_can_select)
+        {
+            graphics.drawImage(ui.cursor_select, input.mouse.x, input.mouse.y, 35, 35);
+            // Reset the state after
+            ui.cursor_can_select = false;
+        }
+        else
+        {
+            graphics.drawImage(ui.cursor_texture, input.mouse.x, input.mouse.y, 35, 35);
         }
     },
     setFish: function(fish)
@@ -113,5 +145,10 @@ let ui = {
     {
         ui.show_inventory = true;
         ui.inventory_cache = inventory;
+    },
+    // TODO: Probably don't want simple getter/setters, inoptimal
+    setCanSelect: function()
+    {
+        ui.cursor_can_select = true;
     }
 }

@@ -25,6 +25,7 @@ let map = {
         if (x > 960 - 400 && x < 960 && y > 720-120 && y < 720)
         {
             map.pond_hover = true;
+            ui.setCanSelect();
             // Mouse click on the interactable
             if (input.mouse.clicked === true && !map_click_handled)
             {

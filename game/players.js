@@ -102,14 +102,18 @@ let players = {
     {
         if (input.mouse.clicked && map_click_handled !== true) 
         {
-            // Move here
-            var command = {
-                "command": "move",
-                "id": session.id,
-                "x": input.mouse.x,
-                "y": input.mouse.y
-            };
-            socket.send(JSON.stringify(command));
+            // Make sure we are in bounds
+            if (input.mouse.x > 0 && input.mouse.x < 960 && input.mouse.y > 200 && input.mouse.y < 720)
+            {
+                // Move here
+                var command = {
+                    "command": "move",
+                    "id": session.id,
+                    "x": input.mouse.x,
+                    "y": input.mouse.y
+                };
+                socket.send(JSON.stringify(command));
+            }
         }
     },
     getPlayer: function(id)

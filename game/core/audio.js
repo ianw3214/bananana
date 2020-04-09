@@ -24,7 +24,7 @@ audio.playTrack = function (track_path) {
     if (audio.track !== null) audio.track.pause();
     audio.track = document.createElement("audio");
     audio.track.src = track_path;
-    audio.track.volume = 0.4;
+    audio.track.volume = 0.1;
     audio.track.setAttribute("preload", "auto");
     audio.track.setAttribute("controls", "none");
     audio.track.style.display = "none";

@@ -34,7 +34,7 @@ let game = {
         players.draw();
 
         ui.draw();
-        graphics.text.drawText("VERSION 0.0.5");
+        graphics.text.drawText("VERSION 0.0.6");
     }
 }
 

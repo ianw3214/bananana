@@ -4,7 +4,7 @@ let login = {
     name_input: null,
     init: function() 
     {
-        input.startRecordText();   
+        input.startRecordText();  
     },
     close: function() 
     {
@@ -18,6 +18,7 @@ let login = {
         if (input.keyPressed(13))
         {
             engine.setState(game);
+            audio.playTrack("res/music/background.wav");
         }
     },
     draw: function()
