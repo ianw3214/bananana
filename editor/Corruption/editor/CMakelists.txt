@@ -1,0 +1,5 @@
+target_sources(Corruption PRIVATE editor.hpp)
+
+target_sources(Corruption PRIVATE editor.cpp)
+
+add_subdirectory(UILayer)

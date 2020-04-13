@@ -1,0 +1,4 @@
+target_sources(Corruption PRIVATE config.cpp)
+
+add_subdirectory(editor)
+add_subdirectory(util)
