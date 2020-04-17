@@ -1,1 +1,3 @@
 target_sources(Corruption PRIVATE timer.hpp timer.cpp)
+target_sources(Corruption PRIVATE animation.hpp animation.cpp)
+target_sources(Corruption PRIVATE loader.hpp loader.cpp)
