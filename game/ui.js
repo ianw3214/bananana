@@ -6,6 +6,7 @@ let ui = {
     inventory_icon_texture: null,
     inventory_hover_texture: null,
     inventory_background: null,
+    // Fish textures
     goldfish_texture: "res/ui/goldfish.png",
     carp_texture: "res/ui/common_carp.png",
     clownfish_texture: "res/ui/clownfish.png",
@@ -14,6 +15,8 @@ let ui = {
     salmon_texture: "res/ui/salmong.png",
     cod_texture: "res/ui/large_cod.png",
     sergio_texture: "res/ui/sergio.png",
+    // icons
+    banana_texture: null,
     cursor_texture: null,
     // UI State
     fish: "",
@@ -21,6 +24,7 @@ let ui = {
     inventory_cache: null,
     inventory_hover: false,
     cursor_can_select: false,
+    money: 0,
     // Actual UI functions
     init: function() {
         ui.inventory_icon_texture = graphics.loadImage("res/icons/inventory.png");
@@ -38,8 +42,15 @@ let ui = {
 
         // Hide the cursor
         document.getElementById('glCanvas').style.cursor = 'none';
+        ui.banana_texture = graphics.loadImage("res/ui/banana.png");
         ui.cursor_texture = graphics.loadImage("res/ui/cursor.png");
         ui.cursor_select = graphics.loadImage("res/ui/cursor_select.png");
+
+        // Request the info needed to fully render UI at the beginning
+        socket.send({
+            "command": "money",
+            "id": session.id
+        });
     },
     update: function(delta)
     {
@@ -125,6 +136,9 @@ let ui = {
                 }
             }
         }
+        // Draw moneysss
+        graphics.drawImage(ui.banana_texture, 0, 0, 60, 60);
+        graphics.text.drawText(ui.money.toString(), defaultFont, 60, 5, 50);
         // Draw the cursor
         if (ui.cursor_can_select)
         {
@@ -145,6 +159,10 @@ let ui = {
     {
         ui.show_inventory = true;
         ui.inventory_cache = inventory;
+    },
+    setMoney: function(money)
+    {
+        ui.money = money;
     },
     // TODO: Probably don't want simple getter/setters, inoptimal
     setCanSelect: function()

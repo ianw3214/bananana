@@ -9,7 +9,8 @@ let players = {
     //////////////////////////////////////////////////
     init: function() 
     {
-        players.player_texture = graphics.loadImage("res/player.png");
+        players.player_texture = graphics.loadImage("res/player.png");              // Normally the player faces right
+        players.player_flip_texture = graphics.loadImage("res/player_flip.png");
         players.player_fishing_texture = graphics.loadImage("res/player_fish.png");
     },
     update: function(map_click_handled)
@@ -28,6 +29,7 @@ let players = {
                 if (x_offset > 5 || x_offset < -5)
                 {
                     player["x"] += Math.ceil(Math.cos(angle) * 5.0);
+                    player["faceright"] = x_offset > 0;
                 }
                 else
                 {
@@ -49,13 +51,20 @@ let players = {
         for (var player in players.players) 
         {
             player = players.players[player];
-            if (player["state"] == "fishing")
+            if (player["state"] === "fishing")
             {
                 graphics.drawImage(players.player_fishing_texture, player["x"] - 50, player["y"] - 150, 100, 150);
             }
             else
             {
-                graphics.drawImage(players.player_texture, player["x"] - 50, player["y"] - 150, 100, 150);
+                if (player["faceright"] === true)
+                {
+                    graphics.drawImage(players.player_texture, player["x"] - 50, player["y"] - 150, 100, 150);
+                }
+                else
+                {
+                    graphics.drawImage(players.player_flip_texture, player["x"] - 50, player["y"] - 150, 100, 150);
+                }
             }
             // Draw the player name
             graphics.text.drawText(player["name"], defaultFont , player["x"] - 50, player["y"] - 150 - 16, 16);
@@ -70,7 +79,8 @@ let players = {
             "y": data["y"],
             "target_x": data["x"],
             "target_y": data["y"],
-            "state": data["state"]
+            "state": data["state"],
+            "faceright": true
         });
     },
     movePlayer: function(data)

@@ -102,6 +102,10 @@ let socket = {
         {
             ui.setInventory(message["inventory"]);
         }
+        if (message["command"] == "money")
+        {
+            ui.setMoney(message["money"]);
+        }
         if (message["debug"])
         {
             if (typeof(message["debug"]) === "object")

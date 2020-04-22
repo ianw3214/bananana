@@ -13,6 +13,7 @@ let map = {
         map.background_texture = graphics.loadImage("res/background.png");
         map.pond_texture = graphics.loadImage("res/pond.png");
         map.pond_highlight_texture = graphics.loadImage("res/pond_highlight.png")
+        map.shopkeep_texture = graphics.loadImage("res/shopkeep.png");
     },
     update: function (map_click_handled)
     {
@@ -50,5 +51,6 @@ let map = {
         {
             graphics.drawImage(map.pond_texture, 960 - 400, 720 - 120, 400, 120);
         }
+        graphics.drawImage(map.shopkeep_texture, 100, 300, 100, 150);
     }
 };
