@@ -6,6 +6,7 @@ let ui = {
     inventory_icon_texture: null,
     inventory_hover_texture: null,
     inventory_background: null,
+    shop_background: null,
     // Fish textures
     goldfish_texture: "res/ui/goldfish.png",
     carp_texture: "res/ui/common_carp.png",
@@ -18,18 +19,23 @@ let ui = {
     // icons
     banana_texture: null,
     cursor_texture: null,
+    cursor_select: null,
+    cursor_sell: null,
     // UI State
     fish: "",
     show_inventory: false,
     inventory_cache: null,
     inventory_hover: false,
     cursor_can_select: false,
+    cursor_can_sell: false,
     money: 0,
+    show_shop: false,
     // Actual UI functions
     init: function() {
         ui.inventory_icon_texture = graphics.loadImage("res/icons/inventory.png");
         ui.inventory_hover_texture = graphics.loadImage("res/icons/inventory_select.png");
         ui.inventory_background = graphics.loadImage("res/ui/inventory.png");
+        ui.shop_background = graphics.loadImage("res/ui/shop.png");
         // Load fish textures
         ui.goldfish_texture = graphics.loadImage("res/ui/goldfish.png");
         ui.carp_texture = graphics.loadImage("res/ui/common_carp.png");
@@ -45,6 +51,7 @@ let ui = {
         ui.banana_texture = graphics.loadImage("res/ui/banana.png");
         ui.cursor_texture = graphics.loadImage("res/ui/cursor.png");
         ui.cursor_select = graphics.loadImage("res/ui/cursor_select.png");
+        ui.cursor_sell = graphics.loadImage("res/ui/cursor_sell.png");
 
         // Request the info needed to fully render UI at the beginning
         socket.send({
@@ -72,20 +79,51 @@ let ui = {
             ui.inventory_hover = true;
             ui.setCanSelect();
         }
-        if (ui.fish.length > 0)
+        // Inventory if selling
+        if (ui.show_shop)
         {
-            if (input.mouse.clicked)
-            {
+            var counter = 0;
+            for (var item in ui.inventory_cache) {
+                item = ui.inventory_cache[item];
+                if (item !== "root") {
+                    var x = 490 + (counter % 4) * 85 + 5;
+                    var y = 90 + (Math.floor(counter / 4)) * 85 + 5;
+                    if (input.mouse.x > x && input.mouse.x < x + 80 && input.mouse.y > y && input.mouse.y < y + 80)
+                    {
+                        ui.setCanSell();
+                        if (input.mouse.clicked)
+                        {
+                            // Sell the item by looking at the index
+                            var command = {
+                                "command": "sell",
+                                "id": session.id,
+                                "name": session.name,
+                                // Add 1 back to compensate for the root
+                                "index": counter + 1
+                            }
+                            socket.send(command);
+                        }
+                    }
+                    counter = counter + 1;
+                }
+            }
+        }
+        if (input.mouse.clicked) 
+        {
+            // If fish caught UI is showing
+            if (ui.fish.length > 0) {
                 ui.fish = "";
                 return true;
             }
-        }
-        // Assume if inventory is shown, the cache is not null
-        if (ui.show_inventory && ui.inventory_cache.length > 0)
-        {
-            if (input.mouse.clicked)
+            // Assume if inventory is shown, the cache is not null
+            if (ui.show_inventory && ui.inventory_cache.length > 0) 
             {
                 ui.show_inventory = false;
+                return true;
+            }
+            if (ui.show_shop) 
+            {
+                ui.show_shop = false;
                 return true;
             }
         }
@@ -108,9 +146,9 @@ let ui = {
             graphics.text.drawText("You caught a " + ui.fish, defaultFont, 100, 200, 16);
         }
         // Draw inventory if showing
-        if (ui.show_inventory)
+        if (ui.show_inventory || ui.show_shop)
         {
-            graphics.drawImage(ui.inventory_background, 130, 70, 522, 522);
+            graphics.drawImage(ui.inventory_background, 490, 90, 345, 515);
             var counter = 0;
             for (var item in ui.inventory_cache)
             {
@@ -119,7 +157,7 @@ let ui = {
                 {
                     var texture = null;
                     if (item == "GOLDFISH") texture = this.goldfish_texture;
-                    if (item == "COMMON_CARP") texture = this.carp_texture;
+                    if (item == "COMMON CARP") texture = this.carp_texture;
                     if (item == "CLOWNFISH") texture = this.clownfish_texture;
                     if (item == "CATFISH") texture = this.catfish_texture;
                     if (item == "SWORDFISH") texture = this.swordfish_texture;
@@ -128,9 +166,9 @@ let ui = {
                     if (item == "SERGIO") texture = this.sergio_texture;
                     if (texture !== null)
                     {
-                        var x = 130 + (counter % 10) * 52 + 2;
-                        var y = 70 + (Math.floor(counter / 10)) * 52 + 2;
-                        graphics.drawImage(texture, x, y, 50, 50);
+                        var x = 490 + (counter % 4) * 85 + 5;
+                        var y = 90 + (Math.floor(counter / 4)) * 85 + 5;
+                        graphics.drawImage(texture, x, y, 80, 80);
                         counter = counter + 1;
                     }
                 }
@@ -139,8 +177,18 @@ let ui = {
         // Draw moneysss
         graphics.drawImage(ui.banana_texture, 0, 0, 60, 60);
         graphics.text.drawText(ui.money.toString(), defaultFont, 60, 5, 50);
+        // Draw shop UI
+        if (ui.show_shop) {
+            graphics.drawImage(ui.shop_background, 90, 90, 345, 515);
+        }
         // Draw the cursor
-        if (ui.cursor_can_select)
+        if (ui.cursor_can_sell)
+        {
+            graphics.drawImage(ui.cursor_sell, input.mouse.x, input.mouse.y, 35, 35);
+            // Reset the state after
+            ui.cursor_can_sell = false;
+        }
+        else if (ui.cursor_can_select)
         {
             graphics.drawImage(ui.cursor_select, input.mouse.x, input.mouse.y, 35, 35);
             // Reset the state after
@@ -168,5 +216,13 @@ let ui = {
     setCanSelect: function()
     {
         ui.cursor_can_select = true;
+    },
+    setCanSell: function()
+    {
+        ui.cursor_can_sell = true;
+    },
+    openShop: function()
+    {
+        ui.show_shop = true;
     }
 }

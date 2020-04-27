@@ -5,8 +5,11 @@ let map = {
     background_texture: null,
     pond_texture: null,
     pond_highlight_texture: null,
+    shopkeep_texture: null,
+    shopkeep_highlight_texture: null,
     //////////////////////////////////////////////////
     pond_hover: false,
+    shopkeep_hover: false,
     //////////////////////////////////////////////////
     init: function()
     {
@@ -14,11 +17,13 @@ let map = {
         map.pond_texture = graphics.loadImage("res/pond.png");
         map.pond_highlight_texture = graphics.loadImage("res/pond_highlight.png")
         map.shopkeep_texture = graphics.loadImage("res/shopkeep.png");
+        map.shopkeep_highlight_texture = graphics.loadImage("res/shopkeep_select.png");
     },
     update: function (map_click_handled)
     {
         // Reset state
         map.pond_hover = false;
+        map.shopkeep_hover = false;
 
         // Check if mouse hovers over interactable
         var x = input.mouse.x;
@@ -38,6 +43,22 @@ let map = {
                 return true;
             }
         }
+        if (x > 100 && x < 100 + 100 && y > 300 && y < 300 + 150) {
+            map.shopkeep_hover = true;
+            ui.setCanSelect();
+            if (input.mouse.clicked === true && !map_click_handled) {
+                // Show the shoppers
+                ui.openShop();
+                // Make sure we have the inventory info needed for the shop
+                var command = {
+                    "command": "inventory",
+                    "id": session.id,
+                    "name": session.name
+                }
+                socket.send(command);
+                return true;
+            }
+        }
         return map_click_handled;
     },
     draw: function()
@@ -51,6 +72,13 @@ let map = {
         {
             graphics.drawImage(map.pond_texture, 960 - 400, 720 - 120, 400, 120);
         }
-        graphics.drawImage(map.shopkeep_texture, 100, 300, 100, 150);
+        if (map.shopkeep_hover)
+        {
+            graphics.drawImage(map.shopkeep_highlight_texture, 100, 300, 100, 150);
+        }
+        else
+        {
+            graphics.drawImage(map.shopkeep_texture, 100, 300, 100, 150);
+        }
     }
 };

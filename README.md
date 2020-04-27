@@ -11,3 +11,20 @@ On the server, commands should be batched so they can be sent in a single go. Co
 On the server side, gameplay systems can use a 'key' system where they register their services into a dictionary. Then, interactables can use that key as a quick way to reference the systems.
 
 The server usually broadcasts the commands to each client, since none of the game state is handled on the client side. However, there are cases where we want to send messages to just a client, for things like requesting inventory data or other client specific data.
+
+## TODOs (GAME)
+
+- Serialize map objects so things aren't hard coded
+- Proper UI library
+- Different maps
+- Chop trees
+- Player customization
+- Better login screen
+- Player animations
+- Rendering order
+
+## TODOs (SERVER)
+
+- Cache inventory on server side, only update to database once in a while
+- Use asynch for database operations so it doesn't wait on these calls
+- Inventory limit (Don't catch fish once limit reached)
