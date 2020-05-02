@@ -66,19 +66,19 @@ let map = {
         graphics.drawImage(map.background_texture, 0, 0, 960, 720);
         if (map.pond_hover)
         {
-            graphics.drawImage(map.pond_highlight_texture, 960 - 400, 720 - 120, 400, 120);
+            game.drawTexture(map.pond_highlight_texture, 960 - 400, 720 - 120, 400, 120);
         }
         else
         {
-            graphics.drawImage(map.pond_texture, 960 - 400, 720 - 120, 400, 120);
+            game.drawTexture(map.pond_texture, 960 - 400, 720 - 120, 400, 120);
         }
         if (map.shopkeep_hover)
         {
-            graphics.drawImage(map.shopkeep_highlight_texture, 80, 450, 100, 150);
+            game.drawTexture(map.shopkeep_highlight_texture, 80, 450, 100, 150);
         }
         else
         {
-            graphics.drawImage(map.shopkeep_texture, 80, 450, 100, 150);
+            game.drawTexture(map.shopkeep_texture, 80, 450, 100, 150);
         }
     }
 };

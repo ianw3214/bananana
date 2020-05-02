@@ -53,17 +53,17 @@ let players = {
             player = players.players[player];
             if (player["state"] === "fishing")
             {
-                graphics.drawImage(players.player_fishing_texture, player["x"] - 50, player["y"] - 150, 100, 150);
+                game.drawTexture(players.player_fishing_texture, player["x"] - 50, player["y"] - 150, 100, 150);
             }
             else
             {
                 if (player["faceright"] === true)
                 {
-                    graphics.drawImage(players.player_texture, player["x"] - 50, player["y"] - 150, 100, 150);
+                    game.drawTexture(players.player_texture, player["x"] - 50, player["y"] - 150, 100, 150);
                 }
                 else
                 {
-                    graphics.drawImage(players.player_flip_texture, player["x"] - 50, player["y"] - 150, 100, 150);
+                    game.drawTexture(players.player_flip_texture, player["x"] - 50, player["y"] - 150, 100, 150);
                 }
             }
             // Draw the player name
