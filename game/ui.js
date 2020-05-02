@@ -5,17 +5,6 @@ let ui = {
     // Textures
     inventory_icon_texture: null,
     inventory_hover_texture: null,
-    inventory_background: null,
-    shop_background: null,
-    // Fish textures
-    goldfish_texture: "res/ui/goldfish.png",
-    carp_texture: "res/ui/common_carp.png",
-    clownfish_texture: "res/ui/clownfish.png",
-    catfish_texture: "res/ui/catfish.png",
-    swordfish_texture: "res/ui/swordfish.png",
-    salmon_texture: "res/ui/salmong.png",
-    cod_texture: "res/ui/large_cod.png",
-    sergio_texture: "res/ui/sergio.png",
     // icons
     banana_texture: null,
     cursor_texture: null,
@@ -24,7 +13,6 @@ let ui = {
     // UI State
     fish: "",
     show_inventory: false,
-    inventory_cache: null,
     inventory_hover: false,
     cursor_can_select: false,
     cursor_can_sell: false,
@@ -34,17 +22,6 @@ let ui = {
     init: function() {
         ui.inventory_icon_texture = graphics.loadImage("res/icons/inventory.png");
         ui.inventory_hover_texture = graphics.loadImage("res/icons/inventory_select.png");
-        ui.inventory_background = graphics.loadImage("res/ui/inventory.png");
-        ui.shop_background = graphics.loadImage("res/ui/shop.png");
-        // Load fish textures
-        ui.goldfish_texture = graphics.loadImage("res/ui/goldfish.png");
-        ui.carp_texture = graphics.loadImage("res/ui/common_carp.png");
-        ui.clownfish_texture = graphics.loadImage("res/ui/clownfish.png");
-        ui.catfish_texture = graphics.loadImage("res/ui/catfish.png");
-        ui.swordfish_texture = graphics.loadImage("res/ui/swordfish.png");
-        ui.salmon_texture = graphics.loadImage("res/ui/salmong.png");
-        ui.cod_texture = graphics.loadImage("res/ui/large_cod.png");
-        ui.sergio_texture = graphics.loadImage("res/ui/sergio.png");
 
         // Hide the cursor
         document.getElementById('glCanvas').style.cursor = 'none';
@@ -52,6 +29,9 @@ let ui = {
         ui.cursor_texture = graphics.loadImage("res/ui/cursor.png");
         ui.cursor_select = graphics.loadImage("res/ui/cursor_select.png");
         ui.cursor_sell = graphics.loadImage("res/ui/cursor_sell.png");
+
+        inventory.init();
+        shop.init();
 
         // Request the info needed to fully render UI at the beginning
         socket.send({
@@ -64,7 +44,9 @@ let ui = {
         // Reset state
         ui.inventory_hover = false;
         // Hotbar buttons
-        if (input.mouse.x > 50 && input.mouse.x < 50 + 100 && input.mouse.y > 720 - 100 && input.mouse.y < 720)
+        var inventory_rect = createRect(50, 620, 100, 100);
+        // if (input.mouse.x > 50 && input.mouse.x < 50 + 100 && input.mouse.y > 720 - 100 && input.mouse.y < 720)
+        if (pointInRect(input.mouse.x, input.mouse.y, inventory_rect))
         {
             if (input.mouse.clicked) 
             {
@@ -79,34 +61,13 @@ let ui = {
             ui.inventory_hover = true;
             ui.setCanSelect();
         }
-        // Inventory if selling
+        if (ui.show_inventory)
+        {
+            inventory.update();
+        }
         if (ui.show_shop)
         {
-            var counter = 0;
-            for (var item in ui.inventory_cache) {
-                item = ui.inventory_cache[item];
-                if (item !== "root") {
-                    var x = 490 + (counter % 4) * 85 + 5;
-                    var y = 90 + (Math.floor(counter / 4)) * 85 + 5;
-                    if (input.mouse.x > x && input.mouse.x < x + 80 && input.mouse.y > y && input.mouse.y < y + 80)
-                    {
-                        ui.setCanSell();
-                        if (input.mouse.clicked)
-                        {
-                            // Sell the item by looking at the index
-                            var command = {
-                                "command": "sell",
-                                "id": session.id,
-                                "name": session.name,
-                                // Add 1 back to compensate for the root
-                                "index": counter + 1
-                            }
-                            socket.send(command);
-                        }
-                    }
-                    counter = counter + 1;
-                }
-            }
+            shop.update();
         }
         if (input.mouse.clicked) 
         {
@@ -116,7 +77,7 @@ let ui = {
                 return true;
             }
             // Assume if inventory is shown, the cache is not null
-            if (ui.show_inventory && ui.inventory_cache.length > 0) 
+            if (ui.show_inventory) 
             {
                 ui.show_inventory = false;
                 return true;
@@ -146,41 +107,17 @@ let ui = {
             graphics.text.drawText("You caught a " + ui.fish, defaultFont, 100, 200, 16);
         }
         // Draw inventory if showing
-        if (ui.show_inventory || ui.show_shop)
+        if (ui.show_inventory)
         {
-            graphics.drawImage(ui.inventory_background, 490, 90, 345, 515);
-            var counter = 0;
-            for (var item in ui.inventory_cache)
-            {
-                item = ui.inventory_cache[item];
-                if (item !== "root")
-                {
-                    var texture = null;
-                    if (item == "GOLDFISH") texture = this.goldfish_texture;
-                    if (item == "COMMON CARP") texture = this.carp_texture;
-                    if (item == "CLOWNFISH") texture = this.clownfish_texture;
-                    if (item == "CATFISH") texture = this.catfish_texture;
-                    if (item == "SWORDFISH") texture = this.swordfish_texture;
-                    if (item == "SALMON") texture = this.salmon_texture;
-                    if (item == "LARGE COD") texture = this.cod_texture;
-                    if (item == "SERGIO") texture = this.sergio_texture;
-                    if (texture !== null)
-                    {
-                        var x = 490 + (counter % 4) * 85 + 5;
-                        var y = 90 + (Math.floor(counter / 4)) * 85 + 5;
-                        graphics.drawImage(texture, x, y, 80, 80);
-                        counter = counter + 1;
-                    }
-                }
-            }
+            inventory.draw();
+        }
+        // Draw shop UI
+        if (ui.show_shop) {
+            shop.draw();
         }
         // Draw moneysss
         graphics.drawImage(ui.banana_texture, 0, 0, 60, 60);
         graphics.text.drawText(ui.money.toString(), defaultFont, 60, 5, 50);
-        // Draw shop UI
-        if (ui.show_shop) {
-            graphics.drawImage(ui.shop_background, 90, 90, 345, 515);
-        }
         // Draw the cursor
         if (ui.cursor_can_sell)
         {
@@ -203,10 +140,10 @@ let ui = {
     {
         ui.fish = fish;
     },
-    setInventory: function(inventory)
+    setInventory: function(data)
     {
         ui.show_inventory = true;
-        ui.inventory_cache = inventory;
+        inventory.setInventory(data);
     },
     setMoney: function(money)
     {

@@ -22,9 +22,12 @@ The server usually broadcasts the commands to each client, since none of the gam
 - Better login screen
 - Player animations
 - Rendering order
+- Loop music
+- Areas that players can't move into
 
 ## TODOs (SERVER)
 
 - Cache inventory on server side, only update to database once in a while
 - Use asynch for database operations so it doesn't wait on these calls
 - Inventory limit (Don't catch fish once limit reached)
+- Compress data before sending? - maybe not super important until bandwidth becomes an issue

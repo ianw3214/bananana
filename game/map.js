@@ -43,7 +43,7 @@ let map = {
                 return true;
             }
         }
-        if (x > 100 && x < 100 + 100 && y > 300 && y < 300 + 150) {
+        if (x > 80 && x < 80 + 100 && y > 450 && y < 450 + 150) {
             map.shopkeep_hover = true;
             ui.setCanSelect();
             if (input.mouse.clicked === true && !map_click_handled) {
@@ -74,11 +74,11 @@ let map = {
         }
         if (map.shopkeep_hover)
         {
-            graphics.drawImage(map.shopkeep_highlight_texture, 100, 300, 100, 150);
+            graphics.drawImage(map.shopkeep_highlight_texture, 80, 450, 100, 150);
         }
         else
         {
-            graphics.drawImage(map.shopkeep_texture, 100, 300, 100, 150);
+            graphics.drawImage(map.shopkeep_texture, 80, 450, 100, 150);
         }
     }
 };
