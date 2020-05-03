@@ -7,6 +7,8 @@ let players = {
     player_move_right_texture: null,
     player_move_left_texture: null,
     player_fishing_texture: null,
+    hair_texture: null,
+    hair_flip_texture: null,
     //////////////////////////////////////////////////
     players: [],
     //////////////////////////////////////////////////
@@ -19,6 +21,8 @@ let players = {
         players.player_move_right_texture = graphics.loadImage("res/player_move_right.png");
         players.player_move_left_texture = graphics.loadImage("res/player_move_left.png");
         players.player_fishing_texture = graphics.loadImage("res/player_fish.png");
+        players.hair_texture = graphics.loadImage("res/player/hair1.png");
+        players.hair_flip_texture = graphics.loadImage("res/player/hair1_flip.png");
     },
     update: function(map_click_handled)
     {
@@ -111,23 +115,20 @@ let players = {
                     game.drawTexture(players.player_flip_texture, draw_x, draw_y, 100, 150);
                 }
             }
+            if (player["hair"] == 0)
+            {
+                if (player["faceright"])
+                {
+                    game.drawTexture(players.hair_texture, draw_x, draw_y - 2, 100, 70, 1);
+                }
+                else
+                {
+                    game.drawTexture(players.hair_flip_texture, draw_x, draw_y - 2, 100, 70, 1);
+                }
+            }
             // Draw the player name
             graphics.text.drawText(player["name"], defaultFont, draw_x, draw_y - 16, 16);
         }
-        /*
-        // Just testing
-        let source = {
-            "target": {
-                "x": 400,
-                "y": 0,
-                "w": 400,
-                "h": 600
-            },
-            "w": 1600,
-            "h": 600
-        }
-        game.drawTextureSource(players.player_texture, source, 100, 100, 100, 150);
-        */
     },
     createPlayer: function(data)
     {
@@ -137,6 +138,7 @@ let players = {
             "x": data["x"],
             "y": data["y"],
             "state": data["state"],
+            "hair": data["hair"],
             // client side player data 
             "target_x": data["x"],
             "target_y": data["y"],
@@ -198,5 +200,10 @@ let players = {
             }
         }
         return null;
+    },
+    setPlayerStyle: function(id, item)
+    {
+        let player = this.getPlayer(id);
+        player.hair = item;
     }
 };

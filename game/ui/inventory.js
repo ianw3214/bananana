@@ -29,33 +29,6 @@ let inventory = {
     },
     update: function()
     {
-        /*
-        {
-            var counter = 0;
-            for (var item in inventory.inventory_cache) {
-                item = inventory.inventory_cache[item];
-                if (item !== "root") {
-                    var x = 490 + (counter % 4) * 85 + 5;
-                    var y = 90 + (Math.floor(counter / 4)) * 85 + 5;
-                    if (input.mouse.x > x && input.mouse.x < x + 80 && input.mouse.y > y && input.mouse.y < y + 80) {
-                        ui.setCanSell();
-                        if (input.mouse.clicked) {
-                            // Sell the item by looking at the index
-                            var command = {
-                                "command": "sell",
-                                "id": session.id,
-                                "name": session.name,
-                                // Add 1 back to compensate for the root
-                                "index": counter + 1
-                            }
-                            socket.send(command);
-                        }
-                    }
-                    counter = counter + 1;
-                }
-            }
-        }
-        */
     },
     draw: function()
     {

@@ -17,13 +17,16 @@ The server usually broadcasts the commands to each client, since none of the gam
 - Serialize map objects so things aren't hard coded
 - Different maps
 - Chop trees
-- Player customization
+- ~Player customization~
+  - **Better** player customization
 - Better login screen
 - ~Player animations~
 - ~Rendering order~
 - Loop music
 - Areas that players can't move into
 - Better text rendering
+- Cache inventory and only update when changed
+- fullscreen support
 
 ## TODOs (SERVER)
 
@@ -31,3 +34,8 @@ The server usually broadcasts the commands to each client, since none of the gam
 - Use asynch for database operations so it doesn't wait on these calls
 - Inventory limit (Don't catch fish once limit reached)
 - Compress data before sending? - maybe not super important until bandwidth becomes an issue
+
+## TODOs (OTHER)
+
+- Centralized data source for shared data between server/client
+- Make id vs name more clear and consistent

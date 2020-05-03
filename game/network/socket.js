@@ -102,9 +102,17 @@ let socket = {
         {
             ui.setInventory(message["inventory"]);
         }
+        if (message["command"] == "wardrobe")
+        {
+            ui.setWardrobe(message["wardrobe"]);
+        }
         if (message["command"] == "money")
         {
             ui.setMoney(message["money"]);
+        }
+        if (message["command"] == "style")
+        {
+            players.setPlayerStyle(message["id"], message["item"])
         }
         if (message["debug"])
         {

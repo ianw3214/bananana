@@ -3,9 +3,11 @@
 let shop = {
     // Textures
     background: null,
+    buy_hair_texture: null,
     init: function()
     {
         shop.background = graphics.loadImage("res/ui/shop.png");
+        shop.buy_hair_texture = graphics.loadImage("res/ui/buy_hair_1.png");
     },
     update: function()
     {
@@ -27,10 +29,28 @@ let shop = {
                 socket.send(command);
             }
         }
+        // Check if we bought hair
+        let x = input.mouse.x;
+        let y = input.mouse.y;
+        if (x > 95 && x < 95 + 335 && y > 95 && y < 95 + 80) {
+            if (input.mouse.clicked)
+            {
+                var command = {
+                    "name": session.name,
+                    "id": session.id,
+                    "command": "buy",
+                    "item": 0
+                }
+                socket.send(command);
+                return true;
+            }
+            ui.setCanSelect();
+        }
     },
     draw: function()
     {
         graphics.drawImage(shop.background, 90, 90, 345, 515);
+        graphics.drawImage(shop.buy_hair_texture, 90 + 5, 90 + 5, 335, 80);
         // Also draw the inventory
         inventory.draw();
     }

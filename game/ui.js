@@ -5,6 +5,8 @@ let ui = {
     // Textures
     inventory_icon_texture: null,
     inventory_hover_texture: null,
+    wardrobe_icon_texture: null,
+    wardrobe_hover_texture: null,
     // icons
     banana_texture: null,
     cursor_texture: null,
@@ -13,15 +15,19 @@ let ui = {
     // UI State
     fish: "",
     show_inventory: false,
+    show_wardrobe: false,
+    show_shop: false,
     inventory_hover: false,
+    wardrobe_hover: false,
     cursor_can_select: false,
     cursor_can_sell: false,
     money: 0,
-    show_shop: false,
     // Actual UI functions
     init: function() {
         ui.inventory_icon_texture = graphics.loadImage("res/icons/inventory.png");
         ui.inventory_hover_texture = graphics.loadImage("res/icons/inventory_select.png");
+        ui.wardrobe_icon_texture = graphics.loadImage("res/icons/wardrobe.png");
+        ui.wardrobe_hover_texture = graphics.loadImage("res/icons/wardrobe_select.png");
 
         // Hide the cursor
         document.getElementById('glCanvas').style.cursor = 'none';
@@ -31,6 +37,7 @@ let ui = {
         ui.cursor_sell = graphics.loadImage("res/ui/cursor_sell.png");
 
         inventory.init();
+        wardrobe.init();
         shop.init();
 
         // Request the info needed to fully render UI at the beginning
@@ -43,8 +50,10 @@ let ui = {
     {
         // Reset state
         ui.inventory_hover = false;
+        ui.wardrobe_hover = false;
         // Hotbar buttons
         var inventory_rect = createRect(50, 620, 100, 100);
+        var wardrobe_rect = createRect(150, 620, 100, 100);
         // if (input.mouse.x > 50 && input.mouse.x < 50 + 100 && input.mouse.y > 720 - 100 && input.mouse.y < 720)
         if (pointInRect(input.mouse.x, input.mouse.y, inventory_rect))
         {
@@ -61,6 +70,19 @@ let ui = {
             ui.inventory_hover = true;
             ui.setCanSelect();
         }
+        if (pointInRect(input.mouse.x, input.mouse.y, wardrobe_rect)) {
+            if (input.mouse.clicked) {
+                var command = {
+                    "command": "wardrobe",
+                    "id": session.id,
+                    "name": session.name
+                }
+                socket.send(command);
+                return true;
+            }
+            ui.wardrobe_hover = true;
+            ui.setCanSelect();
+        }
         if (ui.show_inventory)
         {
             inventory.update();
@@ -68,6 +90,10 @@ let ui = {
         if (ui.show_shop)
         {
             shop.update();
+        }
+        if (ui.show_wardrobe)
+        {
+            wardrobe.update();
         }
         if (input.mouse.clicked) 
         {
@@ -87,6 +113,11 @@ let ui = {
                 ui.show_shop = false;
                 return true;
             }
+            if (ui.show_wardrobe)
+            {
+                ui.show_wardrobe = false;
+                return true;
+            }
         }
         return false;
     },
@@ -101,6 +132,12 @@ let ui = {
         {
             graphics.drawImage(ui.inventory_icon_texture, 50, 720 - 100, 100, 100);
         }
+        if (ui.wardrobe_hover) {
+            graphics.drawImage(ui.wardrobe_hover_texture, 150, 720 - 100, 100, 100);
+        }
+        else {
+            graphics.drawImage(ui.wardrobe_icon_texture, 150, 720 - 100, 100, 100);
+        }
         // draw fish if fishing
         if (ui.fish.length > 0)
         {
@@ -110,6 +147,10 @@ let ui = {
         if (ui.show_inventory)
         {
             inventory.draw();
+        }
+        if (ui.show_wardrobe)
+        {
+            wardrobe.draw();
         }
         // Draw shop UI
         if (ui.show_shop) {
@@ -144,6 +185,11 @@ let ui = {
     {
         ui.show_inventory = true;
         inventory.setInventory(data);
+    },
+    setWardrobe: function(data)
+    {
+        ui.show_wardrobe = true;
+        wardrobe.setWardrobe(data);
     },
     setMoney: function(money)
     {
