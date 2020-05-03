@@ -7,6 +7,7 @@ let map = {
     pond_highlight_texture: null,
     shopkeep_texture: null,
     shopkeep_highlight_texture: null,
+    signpost_texture: null,
     //////////////////////////////////////////////////
     pond_hover: false,
     shopkeep_hover: false,
@@ -18,6 +19,7 @@ let map = {
         map.pond_highlight_texture = graphics.loadImage("res/pond_highlight.png")
         map.shopkeep_texture = graphics.loadImage("res/shopkeep.png");
         map.shopkeep_highlight_texture = graphics.loadImage("res/shopkeep_select.png");
+        map.signpost_texture = graphics.loadImage("res/signpost.png");
     },
     update: function (map_click_handled)
     {
@@ -80,5 +82,6 @@ let map = {
         {
             game.drawTexture(map.shopkeep_texture, 80, 450, 100, 150);
         }
+        game.drawTexture(map.signpost_texture, 120, 220, 184, 341);
     }
 };

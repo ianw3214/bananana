@@ -30,22 +30,36 @@ let game = {
         players.update(map_click_handled);
         socket.update();
     },
-    draw: function () {
+    draw: function (delta) {
         map.draw();
-        players.draw();
+        players.draw(delta);
 
         game.draw_objects.sort(function (a, b) { return a.y + a.h - b.y - b.h });
         game.draw_objects.sort(function (a, b) { return a.z - b.z });
         for (let i in game.draw_objects) {
             let obj = game.draw_objects[i];
-            // Will need drawImageSource when implementing animations
-            graphics.drawImage(
-                obj.texture,
-                obj.x,
-                obj.y,
-                obj.w,
-                obj.h
-            );
+            if (obj.source !== null)
+            {
+                graphics.drawImageSource(
+                    obj.texture,
+                    obj.source,
+                    obj.x,
+                    obj.y,
+                    obj.w,
+                    obj.h
+                );
+            }
+            else
+            {
+                // Will need drawImageSource when implementing animations
+                graphics.drawImage(
+                    obj.texture,
+                    obj.x,
+                    obj.y,
+                    obj.w,
+                    obj.h
+                );
+            }
             /*
             if (obj.type === "square") {
                 let color = error_color;
@@ -65,6 +79,10 @@ let game = {
     drawTexture(texture, x, y, w, h, z = 0)
     {
         this.draw_objects.push({"texture": texture, "x": x, "y": y, "w": w, "h": h, "z": z});
+    },
+    drawTextureSource(texture, source, x, y, w, h, z = 0)
+    {
+        this.draw_objects.push({ "texture": texture, "source": source, "x": x, "y": y, "w": w, "h": h, "z": z })
     }
 }
 

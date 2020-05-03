@@ -3,14 +3,21 @@
 let players = {
     // Textures
     player_texture: null,
+    player_flip_texture: null,
+    player_move_right_texture: null,
+    player_move_left_texture: null,
     player_fishing_texture: null,
     //////////////////////////////////////////////////
     players: [],
+    //////////////////////////////////////////////////
+    delta_accum: 0,
     //////////////////////////////////////////////////
     init: function() 
     {
         players.player_texture = graphics.loadImage("res/player.png");              // Normally the player faces right
         players.player_flip_texture = graphics.loadImage("res/player_flip.png");
+        players.player_move_right_texture = graphics.loadImage("res/player_move_right.png");
+        players.player_move_left_texture = graphics.loadImage("res/player_move_left.png");
         players.player_fishing_texture = graphics.loadImage("res/player_fish.png");
     },
     update: function(map_click_handled)
@@ -43,32 +50,84 @@ let players = {
                 {
                     player["y"] = player["target_y"];
                 }
+                if (player["x"] === player["target_x"] && player["y"] === player["target_y"])
+                {
+                    if (player["state"] === "move")
+                    {
+                        player["state"] = "idle";
+                    }
+                }
             }
         }
     },
-    draw: function()
+    draw: function(delta)
     {
+        players.delta_accum = players.delta_accum + delta;
+        let update_anim = players.delta_accum >= 1000 / 12;
+        if (update_anim) players.delta_accum = 0;
         for (var player in players.players) 
         {
             player = players.players[player];
+            let draw_x = player["x"] - 50;
+            let draw_y = player["y"] - 150;
             if (player["state"] === "fishing")
             {
-                game.drawTexture(players.player_fishing_texture, player["x"] - 50, player["y"] - 150, 100, 150);
+                game.drawTexture(players.player_fishing_texture, draw_x, draw_y, 100, 150);
+            }
+            else if (player["state"] == "move")
+            {
+                // Update frame stats before rendering
+                if (player["curr_anim_frame"] >= 4) player["curr_anim_frame"] = 0;
+                let frame = player["curr_anim_frame"];
+                if (update_anim) player["curr_anim_frame"] = player["curr_anim_frame"] + 1;
+                // For now, animations are hard coded
+                let source = {
+                    "target": {
+                        "x": 400 * frame,
+                        "y": 0,
+                        "w": 400,
+                        "h": 600
+                    },
+                    "w": 1600,
+                    "h": 600
+                }
+                if (player["faceright"] === true)
+                {
+                    game.drawTextureSource(players.player_move_right_texture, source, draw_x, draw_y, 100, 150);
+                }
+                else
+                {
+                    game.drawTextureSource(players.player_move_left_texture, source, draw_x, draw_y, 100, 150);
+                }
             }
             else
             {
                 if (player["faceright"] === true)
                 {
-                    game.drawTexture(players.player_texture, player["x"] - 50, player["y"] - 150, 100, 150);
+                    game.drawTexture(players.player_texture, draw_x, draw_y, 100, 150);
                 }
                 else
                 {
-                    game.drawTexture(players.player_flip_texture, player["x"] - 50, player["y"] - 150, 100, 150);
+                    game.drawTexture(players.player_flip_texture, draw_x, draw_y, 100, 150);
                 }
             }
             // Draw the player name
-            graphics.text.drawText(player["name"], defaultFont , player["x"] - 50, player["y"] - 150 - 16, 16);
+            graphics.text.drawText(player["name"], defaultFont, draw_x, draw_y - 16, 16);
         }
+        /*
+        // Just testing
+        let source = {
+            "target": {
+                "x": 400,
+                "y": 0,
+                "w": 400,
+                "h": 600
+            },
+            "w": 1600,
+            "h": 600
+        }
+        game.drawTextureSource(players.player_texture, source, 100, 100, 100, 150);
+        */
     },
     createPlayer: function(data)
     {
@@ -77,10 +136,12 @@ let players = {
             "name": data["name"],
             "x": data["x"],
             "y": data["y"],
+            "state": data["state"],
+            // client side player data 
             "target_x": data["x"],
             "target_y": data["y"],
-            "state": data["state"],
-            "faceright": true
+            "faceright": true,
+            "curr_anim_frame": 0
         });
     },
     movePlayer: function(data)
@@ -93,6 +154,7 @@ let players = {
             {
                 player["target_x"] = data["x"];
                 player["target_y"] = data["y"];
+                player["state"] = "move";
             }
         }
     },

@@ -15,15 +15,15 @@ The server usually broadcasts the commands to each client, since none of the gam
 ## TODOs (GAME)
 
 - Serialize map objects so things aren't hard coded
-- Proper UI library
 - Different maps
 - Chop trees
 - Player customization
 - Better login screen
-- Player animations
-- Rendering order
+- ~Player animations~
+- ~Rendering order~
 - Loop music
 - Areas that players can't move into
+- Better text rendering
 
 ## TODOs (SERVER)
 
