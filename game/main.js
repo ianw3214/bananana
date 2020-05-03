@@ -74,7 +74,7 @@ let game = {
         game.draw_objects = [];
 
         ui.draw();
-        graphics.text.drawText("VERSION 0.0.7", defaultFont, graphics.width() - 300, graphics.height() - 16, 12);
+        graphics.text.drawText("VERSION 0.0.8", defaultFont, graphics.width() - 300, graphics.height() - 16, 12);
     },
     drawTexture(texture, x, y, w, h, z = 0)
     {
