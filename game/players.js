@@ -117,17 +117,18 @@ let players = {
             }
             if (player["hair"] == 0)
             {
-                if (player["faceright"])
+                // For now the fishing animations only face right so set that for the hair as well
+                if (player["faceright"] || player["state"] === "fishing")
                 {
-                    game.drawTexture(players.hair_texture, draw_x, draw_y - 2, 100, 70, 1);
+                    game.drawTextureOffset(players.hair_texture, draw_x, draw_y - 2, 100, 70, 150 - 70 + 2);
                 }
                 else
                 {
-                    game.drawTexture(players.hair_flip_texture, draw_x, draw_y - 2, 100, 70, 1);
+                    game.drawTextureOffset(players.hair_flip_texture, draw_x, draw_y - 2, 100, 70, 150 - 70 + 2);
                 }
             }
             // Draw the player name
-            graphics.text.drawText(player["name"], defaultFont, draw_x, draw_y - 16, 16);
+            game.drawText(player["name"], draw_x, draw_y - 16);
         }
     },
     createPlayer: function(data)
