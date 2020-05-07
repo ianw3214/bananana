@@ -27,6 +27,8 @@ The server usually broadcasts the commands to each client, since none of the gam
 - Better text rendering
 - Cache inventory and only update when changed
 - fullscreen support
+- Loading cursor when waiting for server response
+  - Need a timeout system for this as well (so we don't load forever)
 
 ## TODOs (SERVER)
 

@@ -24,6 +24,9 @@ let wardrobe = {
                 id: 0
             }
         ]
+
+        // Request the wardrobe data so we can cache it for later
+        this.requestWardrobeData();
     },
     update: function()
     {
@@ -63,6 +66,7 @@ let wardrobe = {
             }
             counter = counter + 1;
         }
+        return false;
     },
     draw: function()
     {
@@ -89,6 +93,15 @@ let wardrobe = {
             }
             counter = counter + 1;
         }
+    },
+    requestWardrobeData: function()
+    {
+        var command = {
+            "command": "wardrobe",
+            "id": session.id,
+            "name": session.name
+        }
+        socket.send(command);
     },
     setWardrobe: function(data)
     {

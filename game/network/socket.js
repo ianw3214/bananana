@@ -100,11 +100,11 @@ let socket = {
         }
         if (message["command"] == "inventory")
         {
-            ui.setInventory(message["inventory"]);
+            inventory.setInventory(message["inventory"]);
         }
         if (message["command"] == "wardrobe")
         {
-            ui.setWardrobe(message["wardrobe"]);
+            wardrobe.setWardrobe(message["wardrobe"]);
         }
         if (message["command"] == "money")
         {

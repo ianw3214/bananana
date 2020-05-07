@@ -27,6 +27,7 @@ let shop = {
                     "index": index
                 }
                 socket.send(command);
+                return true;
             }
         }
         // Check if we bought hair
@@ -46,6 +47,7 @@ let shop = {
             }
             ui.setCanSelect();
         }
+        return false;
     },
     draw: function()
     {

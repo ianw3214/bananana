@@ -59,12 +59,7 @@ let ui = {
         {
             if (input.mouse.clicked) 
             {
-                var command = {
-                    "command": "inventory",
-                    "id": session.id,
-                    "name": session.name
-                }
-                socket.send(command);
+                this.setShowInventory();
                 return true;
             }
             ui.inventory_hover = true;
@@ -72,12 +67,7 @@ let ui = {
         }
         if (pointInRect(input.mouse.x, input.mouse.y, wardrobe_rect)) {
             if (input.mouse.clicked) {
-                var command = {
-                    "command": "wardrobe",
-                    "id": session.id,
-                    "name": session.name
-                }
-                socket.send(command);
+                this.setShowWardrobe();
                 return true;
             }
             ui.wardrobe_hover = true;
@@ -85,15 +75,15 @@ let ui = {
         }
         if (ui.show_inventory)
         {
-            inventory.update();
+            if (inventory.update()) return true;
         }
         if (ui.show_shop)
         {
-            shop.update();
+            if (shop.update()) return true;
         }
         if (ui.show_wardrobe)
         {
-            wardrobe.update();
+            if(wardrobe.update()) return true;
         }
         if (input.mouse.clicked) 
         {
@@ -181,15 +171,13 @@ let ui = {
     {
         ui.fish = fish;
     },
-    setInventory: function(data)
+    setShowInventory: function(data)
     {
         ui.show_inventory = true;
-        inventory.setInventory(data);
     },
-    setWardrobe: function(data)
+    setShowWardrobe: function(data)
     {
         ui.show_wardrobe = true;
-        wardrobe.setWardrobe(data);
     },
     setMoney: function(money)
     {

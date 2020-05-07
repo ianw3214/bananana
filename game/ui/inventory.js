@@ -26,9 +26,13 @@ let inventory = {
         inventory.salmon_texture = graphics.loadImage("res/ui/salmong.png");
         inventory.cod_texture = graphics.loadImage("res/ui/large_cod.png");
         inventory.sergio_texture = graphics.loadImage("res/ui/sergio.png");
+
+        // Request inventory data initially so we can cache it
+        this.requestInventoryData();
     },
     update: function()
     {
+        return false;
     },
     draw: function()
     {
@@ -54,6 +58,15 @@ let inventory = {
                 }
             }
         }
+    },
+    requestInventoryData: function()
+    {
+        var command = {
+            "command": "inventory",
+            "id": session.id,
+            "name": session.name
+        }
+        socket.send(command);
     },
     setInventory: function (data) 
     {
