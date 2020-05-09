@@ -2,11 +2,12 @@
 
 let login = {
     name_input: null,
+    waiting: false,
     init: function() 
     {
         document.getElementById("glCanvas").style.display = "none";
         document.getElementById("play_button").onclick = function() {
-            login.login();
+            login.try_login();
         };
     },
     close: function() 
@@ -17,32 +18,42 @@ let login = {
     update: function() 
     {
         // Enter key
-        if (input.keyPressed(13))
+        if (input.keyPressed(13) && !this.waiting)
         {
-            login.login();
+            login.try_login();
         }
+        // Ideally, we want to separate out socket code from engine reliance
+        socket.update();
     },
     draw: function()
     {
-        graphics.drawRect(0, 0, 960, 720, [1.0, 1.0, 1.0, 1.0]);
-        graphics.text.drawText("Login", defaultFont, 100, 20, 32, [0.0, 0.0, 0.0, 1.0]);
-        graphics.text.drawText("type your username and press \nenter to start", defaultFont, 100, 60, 16, [0.0, 0.0, 0.0, 1.0]);
-
-        graphics.text.drawText("Name", defaultFont, 100, 160, 24, [0.0, 0.0, 0.0, 1.0]);
-
-        if (input.recorded_text)
-        {
-            graphics.text.drawText(input.recorded_text, defaultFont, 220, 160, 24, [0.2, 0.2, 0.2, 1.0]);
-        }
+        // login doesn't use webGL
     },
-    login: function()
+    try_login: function()
     {
+        this.waiting = true;
+        document.getElementById("login").style.cursor = "wait";
+
         let username = document.getElementById("username").value;
         let password = document.getElementById("password").value;
 
-        session.new(username);
+        session.try_login(username, password);
+    },
+    login: function(session_id)
+    {
+        this.waiting = false;
+        document.getElementById("login").style.cursor = "auto";
+
+        session.login(session_id);
 
         audio.playTrack("res/music/background.wav");
         engine.setState(game);
+    },
+    failed: function()
+    {
+        this.waiting = false;
+        document.getElementById("login").style.cursor = "auto";
+
+        logger.error("Login failed");
     }
 }

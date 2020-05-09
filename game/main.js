@@ -6,7 +6,6 @@ let game = {
     background: null,
     init: function () {
         map.init();
-        socket.init();
         players.init();
         ui.init();
     },
@@ -77,7 +76,7 @@ let game = {
         game.draw_objects = [];
 
         ui.draw();
-        graphics.text.drawText("VERSION 0.0.8", defaultFont, graphics.width() - 300, graphics.height() - 16, 12);
+        graphics.text.drawText("VERSION 0.0.9", defaultFont, graphics.width() - 300, graphics.height() - 16, 12);
     },
     drawTexture(texture, x, y, w, h, z = 0)
     {
@@ -100,6 +99,9 @@ let game = {
 
 // Function to represent entry point
 function main() {
+    // Initialize socket separately from everything else
+    socket.init();
+
     engine.init();
     // engine.start(game);
     engine.start(login);

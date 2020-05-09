@@ -3,15 +3,18 @@
 let session = {
     id: null,
     name: null,
-    new: function(name)
+    try_login: function(username, password)
     {
-        session.id = Math.floor(Math.random() * 100000);
-        session.name = name;
+        session.name = username;
 
         socket.send({
-            "command": "create",
-            "id": session.id,
-            "name": name
-        })
+            "command": "login",
+            "name": username,
+            "password": sha256(password)
+        });
+    },
+    login: function(session_id)
+    {
+        session.id = session_id;
     }
 }

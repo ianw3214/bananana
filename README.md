@@ -19,7 +19,7 @@ The server usually broadcasts the commands to each client, since none of the gam
 - Chop trees
 - ~Player customization~
   - **Better** player customization
-- Better login screen
+- ~Better login screen~
 - ~Player animations~
 - ~Rendering order~
 - Loop music
@@ -29,6 +29,7 @@ The server usually broadcasts the commands to each client, since none of the gam
 - fullscreen support
 - Loading cursor when waiting for server response
   - Need a timeout system for this as well (so we don't load forever)
+- cookies to store login info
 
 ## TODOs (SERVER)
 
@@ -36,8 +37,9 @@ The server usually broadcasts the commands to each client, since none of the gam
 - Use asynch for database operations so it doesn't wait on these calls
 - Inventory limit (Don't catch fish once limit reached)
 - Compress data before sending? - maybe not super important until bandwidth becomes an issue
+- Limit one login per account at a time
 
 ## TODOs (OTHER)
 
 - Centralized data source for shared data between server/client
-- Make id vs name more clear and consistent
+- ~Make id vs name more clear and consistent~

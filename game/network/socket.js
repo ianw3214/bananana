@@ -62,6 +62,17 @@ let socket = {
     handleMessage: function(message)
     {
         // Assume message is already in JSON format
+        if (message["command"] == "login")
+        {
+            if (message["success"] === true)
+            {
+                login.login(message["id"]);
+            }
+            else
+            {
+                login.failed();
+            }
+        }
         if (message["command"] == "create")
         {
             players.createPlayer(message);
