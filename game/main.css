@@ -11,7 +11,52 @@ body {
 }
 
 canvas {
+    width: 960px;
+    height: 720px;
     margin: auto;
     display: block;
     background: red;
+}
+
+#login {
+    width: 960px;
+    height: 720px;
+    margin: auto;
+    display: block;
+    background-color: #EEEEDD;
+}
+
+#username {
+    margin-top: 250px;
+    margin-left: 350px;
+    width: 260px;
+}
+
+#password {
+    margin-top: 20px;
+    margin-left: 350px;
+    width: 260px;
+}
+
+#play_button {
+    margin-top: 40px;
+    margin-left: 350px;
+    width: 260px;
+    text-align: center;
+    background-color: #CCCCBB;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    font-family: "Lucida Console", Courier, monospace;
+    font-size: 32px;
+}
+
+#play_button:hover {
+    background-color: #BBBBAA;
+    cursor: pointer;
+}
+
+#play_button:active {
+    background-color: #AAAA99;
+    cursor: pointer;
 }

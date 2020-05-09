@@ -4,21 +4,22 @@ let login = {
     name_input: null,
     init: function() 
     {
-        input.startRecordText();  
+        document.getElementById("glCanvas").style.display = "none";
+        document.getElementById("play_button").onclick = function() {
+            login.login();
+        };
     },
     close: function() 
     {
-        input.stopRecordText();
-        session.new(input.recorded_text);
-        input.resetRecordText();
+        document.getElementById("login").style.display = "none";
+        document.getElementById("glCanvas").style.display = "block";
     },
     update: function() 
     {
         // Enter key
         if (input.keyPressed(13))
         {
-            engine.setState(game);
-            audio.playTrack("res/music/background.wav");
+            login.login();
         }
     },
     draw: function()
@@ -33,5 +34,15 @@ let login = {
         {
             graphics.text.drawText(input.recorded_text, defaultFont, 220, 160, 24, [0.2, 0.2, 0.2, 1.0]);
         }
+    },
+    login: function()
+    {
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+
+        session.new(username);
+
+        audio.playTrack("res/music/background.wav");
+        engine.setState(game);
     }
 }
