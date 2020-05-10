@@ -7,8 +7,11 @@ let players = {
     player_move_right_texture: null,
     player_move_left_texture: null,
     player_fishing_texture: null,
+    // TODO: This needs to be generalized
     hair_texture: null,
     hair_flip_texture: null,
+    hair_texture_2: null,
+    hair_flip_texture_2: null,
     //////////////////////////////////////////////////
     players: [],
     //////////////////////////////////////////////////
@@ -23,6 +26,8 @@ let players = {
         players.player_fishing_texture = graphics.loadImage("res/player_fish.png");
         players.hair_texture = graphics.loadImage("res/player/hair1.png");
         players.hair_flip_texture = graphics.loadImage("res/player/hair1_flip.png");
+        players.hair_texture_2 = graphics.loadImage("res/player/hair2.png");
+        players.hair_flip_texture_2 = graphics.loadImage("res/player/hair2_flip.png");
     },
     update: function(map_click_handled)
     {
@@ -125,6 +130,15 @@ let players = {
                 else
                 {
                     game.drawTextureOffset(players.hair_flip_texture, draw_x, draw_y - 2, 100, 70, 150 - 70 + 2);
+                }
+            }
+            if (player["hair"] == 1) {
+                // For now the fishing animations only face right so set that for the hair as well
+                if (player["faceright"] || player["state"] === "fishing") {
+                    game.drawTextureOffset(players.hair_texture_2, draw_x, draw_y - 5, 100, 70, 150 - 70 + 5);
+                }
+                else {
+                    game.drawTextureOffset(players.hair_flip_texture_2, draw_x, draw_y - 5, 100, 70, 150 - 70 + 5);
                 }
             }
             // Draw the player name

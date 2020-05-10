@@ -32,6 +32,8 @@ The identification of player data between server and database has to be done by 
 - Loading cursor when waiting for server response
   - Need a timeout system for this as well (so we don't load forever)
 - cookies to store login info
+- Player gender
+- username validation
 
 ## TODOs (SERVER)
 

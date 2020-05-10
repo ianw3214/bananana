@@ -22,6 +22,12 @@ let wardrobe = {
                 hover: "res/icons/wardrobe/basichair_hover.png",
                 invalid: "res/icons/wardrobe/basichair_invalid.png",
                 id: 0
+            },
+            {
+                normal: "res/icons/wardrobe/hair2.png",
+                hover: "res/icons/wardrobe/hair2_hover.png",
+                invalid: "res/icons/wardrobe/hair2_invalid.png",
+                id: 1
             }
         ]
 
