@@ -49,11 +49,18 @@ let login = {
         audio.playTrack("res/music/background.wav");
         engine.setState(game);
     },
-    failed: function()
+    failed: function(type)
     {
         this.waiting = false;
         document.getElementById("login").style.cursor = "auto";
 
-        logger.error("Login failed");
+        if (type == 1)
+        {
+            logger.error("Session already exists");
+        }
+        else if(type == 2)
+        {
+            logger.error("Incorrect password");
+        }
     }
 }

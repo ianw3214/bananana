@@ -12,6 +12,8 @@ On the server side, gameplay systems can use a 'key' system where they register 
 
 The server usually broadcasts the commands to each client, since none of the game state is handled on the client side. However, there are cases where we want to send messages to just a client, for things like requesting inventory data or other client specific data.
 
+The identification of player data between server and database has to be done by name since all the firestore collections are identified by name.
+
 ## TODOs (GAME)
 
 - Serialize map objects so things aren't hard coded
@@ -37,9 +39,9 @@ The server usually broadcasts the commands to each client, since none of the gam
 - Use asynch for database operations so it doesn't wait on these calls
 - Inventory limit (Don't catch fish once limit reached)
 - Compress data before sending? - maybe not super important until bandwidth becomes an issue
-- Limit one login per account at a time
+- ~Limit one login per account at a time~
 
 ## TODOs (OTHER)
 
 - Centralized data source for shared data between server/client
-- ~Make id vs name more clear and consistent~
+- Prefer using name over id as identification over packets

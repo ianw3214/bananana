@@ -70,7 +70,7 @@ let socket = {
             }
             else
             {
-                login.failed();
+                login.failed(message["type"]);
             }
         }
         if (message["command"] == "create")
