@@ -35,6 +35,7 @@ The identification of player data between server and database has to be done by 
 - cookies to store login info
 - Player gender
 - username validation
+- player housing
 
 ## TODOs (SERVER)
 

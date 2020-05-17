@@ -30,7 +30,7 @@ let ui = {
         ui.wardrobe_hover_texture = graphics.loadImage("res/icons/wardrobe_select.png");
 
         // Hide the cursor
-        document.getElementById('glCanvas').style.cursor = 'none';
+        document.getElementById('canvases').style.cursor = 'none';
         ui.banana_texture = graphics.loadImage("res/ui/banana.png");
         ui.cursor_texture = graphics.loadImage("res/ui/cursor.png");
         ui.cursor_select = graphics.loadImage("res/ui/cursor_select.png");
