@@ -131,7 +131,7 @@ let ui = {
         // draw fish if fishing
         if (ui.fish.length > 0)
         {
-            graphics.text.drawText("You caught a " + ui.fish, defaultFont, 100, 200, 16);
+            graphics.text.drawText("You caught a " + ui.fish, 100, 200, 16);
         }
         // Draw inventory if showing
         if (ui.show_inventory)
@@ -148,7 +148,7 @@ let ui = {
         }
         // Draw moneysss
         graphics.drawImage(ui.banana_texture, 0, 0, 60, 60);
-        graphics.text.drawText(ui.money.toString(), defaultFont, 60, 5, 50);
+        graphics.text.drawText(ui.money.toString(), 60, 5, 50);
         // Draw the cursor
         if (ui.cursor_can_sell)
         {

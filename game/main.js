@@ -70,13 +70,13 @@ let game = {
             }
             if (obj.type === "text") {
                 // Font not customizable for now
-                graphics.text.drawText(obj.text, defaultFont, obj.x, obj.y, obj.size);
+                graphics.text.drawText(obj.text, obj.x, obj.y, obj.size);
             }
         }
         game.draw_objects = [];
 
         ui.draw();
-        graphics.text.drawText("VERSION 0.0.9", defaultFont, graphics.width() - 300, graphics.height() - 16, 12);
+        graphics.text.drawText("VERSION 0.0.9", graphics.width() - 300, graphics.height() - 16, 12);
     },
     drawTexture(texture, x, y, w, h, z = 0)
     {

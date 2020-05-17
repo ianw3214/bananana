@@ -5,7 +5,7 @@ let login = {
     waiting: false,
     init: function() 
     {
-        document.getElementById("glCanvas").style.display = "none";
+        document.getElementById("canvases").style.display = "none";
         document.getElementById("play_button").onclick = function() {
             login.try_login();
         };
@@ -13,7 +13,7 @@ let login = {
     close: function() 
     {
         document.getElementById("login").style.display = "none";
-        document.getElementById("glCanvas").style.display = "block";
+        document.getElementById("canvases").style.display = "block";
     },
     update: function() 
     {

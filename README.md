@@ -26,8 +26,9 @@ The identification of player data between server and database has to be done by 
 - ~Rendering order~
 - Loop music
 - Areas that players can't move into
-- Better text rendering
-- Cache inventory and only update when changed
+- ~Better text rendering~
+  - Actually render the text in webGL
+- ~Cache inventory and only update when changed~
 - fullscreen support
 - Loading cursor when waiting for server response
   - Need a timeout system for this as well (so we don't load forever)

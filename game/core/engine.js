@@ -42,6 +42,7 @@ engine.update = function (delta) {
 
 engine.draw = function (delta) {
     graphics.clearBuffer();
+    graphics.text.clearBuffer();
     // Draw the state of the world
     if (engine.state.hasOwnProperty("draw")) {
         if (typeof engine.state.draw === "function") {

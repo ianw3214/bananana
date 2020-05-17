@@ -10,12 +10,28 @@ body {
     margin: 0;
 }
 
-canvas {
+#canvases {
+    margin: auto;
     width: 960px;
     height: 720px;
-    margin: auto;
+    display: block;
+}
+
+#glCanvas {
+    width: 960px;
+    height: 720px;
     display: block;
     background: red;
+    position: relative;
+}
+
+#textCanvas {
+    width: 960px;
+    height: 720px;
+    position: absolute;
+    margin: auto;
+    top: 0px;
+    z-index: 10;
 }
 
 #login {
